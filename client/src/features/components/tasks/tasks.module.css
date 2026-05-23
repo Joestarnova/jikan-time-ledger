@@ -1,0 +1,94 @@
+/* ///////////////////-----AddTask-----///////////////////////// */
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container > button {
+  background-color: rgba(252, 169, 101, 0.1);
+  color: orange;
+  padding: 3px 10px;
+  border-radius: 3px;
+  border: 1px solid #f59e0b;
+}
+
+.container > p {
+  color: #757575;
+}
+
+.parent {
+  height: 64px;
+  border-bottom: 0.5px solid #313134;
+  margin-bottom: 20px;
+}
+
+input {
+  background-color: #27272b;
+  border-radius: 5px;
+  border: 1px solid #464646;
+  padding: 5px 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.inputContainer {
+  margin-top: 20px;
+}
+
+.inputContainer > p {
+  font-size: 0.8rem;
+  color: #8d8d8d;
+}
+
+.modalBtn {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn1 {
+  background-color: #27272b;
+  border: 1px solid #464646;
+  border-radius: 5px;
+  padding: 3px 15px;
+  color: #d2d2d2;
+}
+
+.btn2 {
+  background-color: rgba(252, 169, 101, 0.1);
+  border: 1px solid #f59e0b;
+  color: orange;
+  border-radius: 5px;
+  padding: 3px 15px;
+}
+
+/* ///////////////////-----TaskList-----///////////////////////// */
+
+.list {
+  background-color: #171717;
+  padding: 20px;
+  border: 1px solid #303030;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.list > div {
+  display: flex;
+  align-items: center;
+}
+
+.list > div > div {
+  background-color: #2c2c2c;
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid #3f3f3f;
+}
