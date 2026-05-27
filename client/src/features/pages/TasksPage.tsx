@@ -4,7 +4,7 @@ import TaskList from "../components/tasks/TaskList";
 import { useState } from "react"
 
 export default function TasksPage() {
-  type Task = { taskEmoji: string; taskName: string; id: string };
+  type Task = { taskEmoji: string; taskName: string; taskColor: string; id: string };
 
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -23,3 +23,4 @@ export default function TasksPage() {
     </Layout>
   );
 }
+ 

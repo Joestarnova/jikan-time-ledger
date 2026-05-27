@@ -2,16 +2,21 @@ import styles from "./tasks.module.css";
 import Modal from "../../../components/ui/modal/Modal";
 import { useState, type FormEvent } from "react";
 
-type Task = { taskEmoji: string; taskName: string; id: string };
+type Task = { taskEmoji: string; taskName: string; taskColor: string; id: string };
 type AddTaskProps = {
   tasks: Task[];
   onAddTasks: (task: Task) => void;
+};
+type ColorPickerProps = {
+  selectedColor: string;
+  onSelectColor: (color: string) => void;
 };
 
 export default function AddTask({ tasks, onAddTasks }: AddTaskProps) {
   const [activeModal, setActiveModal] = useState(false);
   const [taskName, setTaskName] = useState("");
   const [taskEmoji, setTaskEmoji] = useState("");
+  const [taskColor, setTaskColor] = useState("");
 
   const handleExit = () => {
     setActiveModal(false);
@@ -21,11 +26,11 @@ export default function AddTask({ tasks, onAddTasks }: AddTaskProps) {
     e.preventDefault();
 
     if (!taskName || !taskEmoji) {
-      handleExit()
-      return
-    };
+      handleExit();
+      return;
+    }
 
-    const newTask = { taskEmoji, taskName, id: crypto.randomUUID() };
+    const newTask = { taskEmoji, taskName, taskColor, id: crypto.randomUUID() };
 
     onAddTasks(newTask);
 
@@ -55,6 +60,11 @@ export default function AddTask({ tasks, onAddTasks }: AddTaskProps) {
                   setTaskName(e.target.value);
                 }}
               />
+              <p>Color</p>
+              <ColorPicker
+                selectedColor={taskColor}
+                onSelectColor={setTaskColor}
+              />
               <p>Icon (Optional)</p>
               <input
                 type="text"
@@ -80,6 +90,31 @@ export default function AddTask({ tasks, onAddTasks }: AddTaskProps) {
           </form>
         </Modal>
       )}
+    </div>
+  );
+}
+
+function ColorPicker({ selectedColor, onSelectColor }: ColorPickerProps) {
+  const colors = [
+    "#D03F8A",
+    "#3ED06E",
+    "#E8614D",
+    "#9C7FE9",
+    "#5B8DEE",
+    "#3ECFB2",
+    "#F6A724",
+  ];
+
+  return (
+    <div className={styles.colorContainer}>
+      {colors.map((color) => (
+        <div
+          key={color}
+          className={`${styles.colorChoice} ${selectedColor === color ? styles.colorChoiceSelected : ""}`}
+          style={{ backgroundColor: color }}
+          onClick={() => onSelectColor(color)}
+        ></div>
+      ))}
     </div>
   );
 }

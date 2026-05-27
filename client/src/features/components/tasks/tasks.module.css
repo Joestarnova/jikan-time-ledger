@@ -28,8 +28,6 @@ input {
   border-radius: 5px;
   border: 1px solid #464646;
   padding: 5px 10px;
-  margin-top: 10px;
-  margin-bottom: 20px;
   width: 100%;
 }
 
@@ -40,12 +38,14 @@ input {
 .inputContainer > p {
   font-size: 0.8rem;
   color: #8d8d8d;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .modalBtn {
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .btn1 {
@@ -62,6 +62,24 @@ input {
   color: orange;
   border-radius: 5px;
   padding: 3px 15px;
+}
+
+.colorContainer {
+    display: flex;
+    
+}
+
+.colorChoice {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.colorChoiceSelected {
+    outline: 2px solid white;
+    outline-offset: 2px;
 }
 
 /* ///////////////////-----TaskList-----///////////////////////// */
@@ -81,14 +99,26 @@ input {
   align-items: center;
 }
 
-.list > div > div {
-  background-color: #2c2c2c;
+.childContainer {
+  background-color: #2c2c2ccd;
   width: 30px;
   height: 30px;
-  margin-right: 20px;
+  margin-right: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
   border: 1px solid #3f3f3f;
+}
+
+.fav {
+    cursor: pointer;
+    user-select: none;
+    margin-right: 30px;
+}
+
+.trailer > div {
+    margin-right: 30px;
+    font-family: monospace;
+    color: #8d8d8d;
 }
