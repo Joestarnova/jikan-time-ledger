@@ -1,0 +1,1 @@
+export  type Task = { taskEmoji: string; taskName: string; taskColor: string; id: string };
