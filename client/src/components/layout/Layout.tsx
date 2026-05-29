@@ -11,7 +11,7 @@ export default function Layout({ children }: LayoutProps) {
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       <Navbar />
       <TabNav />
-      <main className="px-8 py-8">{children}</main>
+      <main className="px-8 py-5">{children}</main>
     </div>
   );
 }
