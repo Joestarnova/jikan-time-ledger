@@ -2,13 +2,10 @@ import Layout from "../../components/layout/Layout";
 import AddTask from "../components/tasks/AddTask";
 import TaskList from "../components/tasks/TaskList";
 import type { Task } from "../../types";
+import { useTasks } from '../../context/useTasks'
 
-interface TasksPageProps {
-  tasks: Task[];
-  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-}
-
-export default function TasksPage({tasks, setTasks}: TasksPageProps) {
+export default function TasksPage() {
+  const {tasks, setTasks} = useTasks()
 
   const handleAddTasks = (task: Task) => {
     setTasks((tasks) => [...tasks, task])
