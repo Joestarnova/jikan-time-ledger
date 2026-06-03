@@ -2,24 +2,35 @@ import Layout from "../../components/layout/Layout";
 import AddTask from "../components/tasks/AddTask";
 import TaskList from "../components/tasks/TaskList";
 import type { Task } from "../../types";
-import { useTasks } from '../../context/tasks'
+import { useTasks } from "../../context/tasks";
 
 export default function TasksPage() {
-  const {tasks, setTasks} = useTasks()
+  const { tasks, setTasks } = useTasks();
 
   const handleAddTasks = (task: Task) => {
-    setTasks((tasks) => [...tasks, task])
-  }
+    setTasks((tasks) => [...tasks, task]);
+  };
 
   const handleDeleteTask = (id: string) => {
     setTasks((tasks) => tasks.filter((task) => task.id !== id));
-  }
+  };
+
+  const handleToggleFavorite = (id: string) => {
+    setTasks((tasks) =>
+      tasks.map((task) =>
+        task.id === id ? { ...task, isFavorite: !task.isFavorite } : task,
+      ),
+    );
+  };
 
   return (
     <Layout>
-      <AddTask tasks={tasks} onAddTasks={handleAddTasks}/>
-      <TaskList tasks={tasks} onDeleteTask={handleDeleteTask} />
+      <AddTask tasks={tasks} onAddTasks={handleAddTasks} />
+      <TaskList
+        tasks={tasks}
+        onDeleteTask={handleDeleteTask}
+        onToggleFavorite={handleToggleFavorite}
+      />
     </Layout>
   );
 }
- 

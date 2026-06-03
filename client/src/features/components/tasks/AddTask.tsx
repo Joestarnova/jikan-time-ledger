@@ -1,8 +1,8 @@
 import styles from "./tasks.module.css";
 import Modal from "../../../components/ui/modal/Modal";
 import { useState, type FormEvent } from "react";
+import type { Task } from "../../../types";
 
-type Task = { taskEmoji: string; taskName: string; taskColor: string; id: string };
 type AddTaskProps = {
   tasks: Task[];
   onAddTasks: (task: Task) => void;
@@ -30,7 +30,7 @@ export default function AddTask({ tasks, onAddTasks }: AddTaskProps) {
       return;
     }
 
-    const newTask = { taskEmoji, taskName, taskColor, id: crypto.randomUUID() };
+    const newTask = { taskEmoji, taskName, taskColor, id: crypto.randomUUID(), isFavorite: false };
 
     onAddTasks(newTask);
 
