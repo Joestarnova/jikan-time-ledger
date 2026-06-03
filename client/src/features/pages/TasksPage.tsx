@@ -2,7 +2,7 @@ import Layout from "../../components/layout/Layout";
 import AddTask from "../components/tasks/AddTask";
 import TaskList from "../components/tasks/TaskList";
 import type { Task } from "../../types";
-import { useTasks } from '../../context/useTasks'
+import { useTasks } from '../../context/tasks'
 
 export default function TasksPage() {
   const {tasks, setTasks} = useTasks()

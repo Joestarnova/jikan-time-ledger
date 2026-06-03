@@ -1,8 +1,8 @@
 type TaskBarProps = {
   name: string;
   minutes: number;
-  maxMinutes: number;
-  color: string;
+  totalMinutes: number;
+  taskColor: string;
 };
 
 const formatDuration = (minutes: number) => {
@@ -11,19 +11,22 @@ const formatDuration = (minutes: number) => {
   return `${h}h ${String(m).padStart(2, "0")}m`;
 };
 
-export default function TaskBar({ name, minutes, maxMinutes, color }: TaskBarProps) {
-  const pct = Math.max(2, Math.min(100, (minutes / maxMinutes) * 100));
+export default function TaskBar({ name, minutes, totalMinutes, taskColor }: TaskBarProps) {
+  const pct = Math.max(2, Math.min(100, (minutes / totalMinutes) * 100));
 
-  return (
+    return (
     <div className="grid grid-cols-[7rem_1fr_4rem] items-center gap-4">
       <div className="flex items-center gap-2 text-sm text-zinc-300">
-        <span className={`h-1.5 w-1.5 rounded-full ${color}`} />
+        <span
+          className="h-1.5 w-1.5 rounded-full"
+          style={{ backgroundColor: taskColor }}
+        />
         {name}
       </div>
       <div className="h-1.5 overflow-hidden rounded-full bg-zinc-900">
         <div
-          className={`h-full rounded-full ${color}`}
-          style={{ width: `${pct}%` }}
+          className="h-full rounded-full"
+          style={{ width: `${pct}%`, backgroundColor: taskColor }}
         />
       </div>
       <div className="text-right font-mono text-xs text-zinc-400 tabular-nums">
@@ -31,4 +34,5 @@ export default function TaskBar({ name, minutes, maxMinutes, color }: TaskBarPro
       </div>
     </div>
   );
+
 }
