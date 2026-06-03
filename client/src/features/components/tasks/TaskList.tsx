@@ -1,33 +1,28 @@
 import styles from "./tasks.module.css";
-import { useState } from "react";
+import type { Task } from "../../../types";
 
-type Task = {
-  taskEmoji: string;
-  taskName: string;
-  taskColor: string;
-  id: string;
-};
 type TaskListProps = {
   tasks: Task[];
   onDeleteTask: (id: string) => void;
+  onToggleFavorite: (id: string) => void;
 };
 type TaskProps = {
   task: Task;
   onDeleteTask: (id: string) => void;
+  onToggleFavorite: (id: string) => void;
 };
 
-export default function TaskList({ tasks, onDeleteTask }: TaskListProps) {
+export default function TaskList({ tasks, onDeleteTask, onToggleFavorite }: TaskListProps) {
   return (
     <ul>
       {tasks.map((task) => (
-        <Task key={task.id} task={task} onDeleteTask={onDeleteTask} />
+        <Task key={task.id} task={task} onDeleteTask={onDeleteTask} onToggleFavorite={onToggleFavorite} />
       ))}
     </ul>
   );
 }
 
-function Task({ task, onDeleteTask }: TaskProps) {
-  const [isFav, setIsFav] = useState(false);
+function Task({ task, onDeleteTask, onToggleFavorite }: TaskProps) {
 
   return (
     <li>
@@ -39,12 +34,12 @@ function Task({ task, onDeleteTask }: TaskProps) {
           <div
             className={`${styles.fav} ${styles.childContainer}`}
             style={{
-              color: isFav ? "#f59e0b" : "#6b6b6b",
-              border: `1px solid ${isFav ? "#f59e0b" : "#6b6b6b"}`,
+              color: task.isFavorite ? "#f59e0b" : "#6b6b6b",
+              border: `1px solid ${task.isFavorite ? "#f59e0b" : "#6b6b6b"}`,
             }}
-            onClick={() => setIsFav((prev) => !prev)}
+            onClick={() => onToggleFavorite(task.id)}
           >
-            {isFav ? "★" : "☆"}
+            {task.isFavorite ? "★" : "☆"}
           </div>
           {task.taskName}
         </div>{" "}
