@@ -1,0 +1,35 @@
+/* ///////////////////-----SessionSelection-----///////////////////////// */
+
+.all {
+  background-color: #27272b;
+  color: #797979;
+  padding: 7px 12px;
+  border-radius: 15px;
+  border: 1px solid #464646;
+  margin: 0 3px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.selection {
+  background-color: #27272b;
+  color: #797979;
+  padding: 7px 12px;
+  border-radius: 15px;
+  border: 1px solid #464646;
+  margin: 0 3px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.container {
+  height: 50px;
+  border-bottom: 0.5px solid #313134;
+  margin-bottom: 20px;
+}
+
+.selected {
+  background-color: rgba(252, 169, 101, 0.1);
+  color: #f59e0b;
+  border: 1px solid #f59e0b;
+}

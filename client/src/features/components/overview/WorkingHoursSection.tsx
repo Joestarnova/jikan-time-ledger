@@ -39,7 +39,7 @@ function TimeField({
           type="time"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none bg-transparent font-mono text-base tracking-wider text-zinc-100 outline-none [color-scheme:dark]"
+          className="w-full appearance-none bg-transparent font-mono text-base tracking-wider text-zinc-100 outline-none scheme-dark"
         />
       </div>
     </label>

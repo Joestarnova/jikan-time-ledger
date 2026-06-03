@@ -1,12 +1,11 @@
 import Layout from "../../components/layout/Layout";
 import AddTask from "../components/tasks/AddTask";
 import TaskList from "../components/tasks/TaskList";
-import { useState } from "react"
+import type { Task } from "../../types";
+import { useTasks } from '../../context/tasks'
 
 export default function TasksPage() {
-  type Task = { taskEmoji: string; taskName: string; id: string };
-
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const {tasks, setTasks} = useTasks()
 
   const handleAddTasks = (task: Task) => {
     setTasks((tasks) => [...tasks, task])
@@ -23,3 +22,4 @@ export default function TasksPage() {
     </Layout>
   );
 }
+ 
