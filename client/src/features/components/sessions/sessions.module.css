@@ -33,3 +33,62 @@
   color: #f59e0b;
   border: 1px solid #f59e0b;
 }
+
+/* ///////////////////-----SessionList-----///////////////////////// */
+
+.sessionList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dayHeader {
+  color: #6b6b6b;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  margin: 28px 0 4px;
+}
+
+.sessionItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 8px;
+  border-bottom: 0.5px solid #303037;
+}
+
+.bar {
+  width: 3px;
+  align-self: stretch;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+}
+.name {
+  color: #f4f4f5;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.time {
+  color: #6b6b6b;
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+.duration {
+  color: #e4e4e7;
+  font-family: monospace;
+  font-size: 1rem;
+}
+
+.empty {
+  color: #797979;
+  text-align: center;
+  padding: 40px 0;
+}

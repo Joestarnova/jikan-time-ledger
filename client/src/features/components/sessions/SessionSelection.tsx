@@ -1,13 +1,13 @@
-import { useState } from "react";
 import type { Task } from "../../../types";
 import styles from "./sessions.module.css";
 
 interface SessionSelectionProps {
   tasks: Task[];
+  selected: string;
+  setSelected: (id: string) => void;
 }
 
-export default function SessionSelection({ tasks }: SessionSelectionProps) {
-  const [selected, setSelected] = useState<string>("all");
+export default function SessionSelection({ tasks, selected, setSelected }: SessionSelectionProps) {
 
   return (
     <div className={styles.container}>
