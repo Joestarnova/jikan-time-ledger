@@ -14,8 +14,3 @@ CREATE TABLE sessions (
   ended_at          TIMESTAMPTZ,
   duration_seconds  INTEGER
 );
-
-CREATE TABLE settings (
-  key     TEXT PRIMARY KEY,
-  value   TEXT
-);
