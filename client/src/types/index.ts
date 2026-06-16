@@ -9,5 +9,5 @@ export type Session = {
   id: string;
   taskId: string;
   startedAt: string;
-  durationSeconds: number;
+  durationSeconds: number | null;
 };

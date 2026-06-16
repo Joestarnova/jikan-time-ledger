@@ -41,7 +41,7 @@ export default function AnalyticsSummary({ data }: { data: Analytics }) {
       />
       <Card
         label="Longest Session"
-        value={longest ? formatHm(longest.session.durationSeconds) : "—"}
+        value={longest ? formatHm(longest.session.durationSeconds ?? 0) : "—"}
         caption={longestCaption}
       />
     </section>

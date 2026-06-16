@@ -19,7 +19,7 @@ export function useAnalytics({ from, to }: DateRange) {
       return t >= start && t <= end;
     });
 
-    const totalSeconds = inRange.reduce((sum, s) => sum + s.durationSeconds, 0);
+    const totalSeconds = inRange.reduce((sum, s) => sum + (s.durationSeconds ?? 0), 0);
 
     // active days = distinct calendar days that have at least one session
     const activeDays = new Set(
@@ -31,7 +31,7 @@ export function useAnalytics({ from, to }: DateRange) {
     // per-task totals -> distribution (sorted desc) -> top subject
     const totals = new Map<string, number>();
     for (const s of inRange) {
-      totals.set(s.taskId, (totals.get(s.taskId) ?? 0) + s.durationSeconds);
+      totals.set(s.taskId, (totals.get(s.taskId) ?? 0) + (s.durationSeconds ?? 0));
     }
     const distribution = [...totals.entries()]
       .map(([taskId, seconds]) => ({
@@ -46,7 +46,7 @@ export function useAnalytics({ from, to }: DateRange) {
     // longest single session in range
     let longest: { session: Session; task?: Task } | null = null;
     for (const s of inRange) {
-      if (!longest || s.durationSeconds > longest.session.durationSeconds) {
+      if (!longest || (s.durationSeconds ?? 0) > (longest.session.durationSeconds?? 0)) {
         longest = { session: s, task: tasks.find((t) => t.id === s.taskId) };
       }
     }
@@ -60,7 +60,7 @@ export function useAnalytics({ from, to }: DateRange) {
       const key = dateKey(cursor);
       const secs = inRange
         .filter((s) => dateKey(new Date(s.startedAt)) === key)
-        .reduce((sum, s) => sum + s.durationSeconds, 0);
+        .reduce((sum, s) => sum + (s.durationSeconds ?? 0), 0);
       daily.push({
         key,
         label: cursor.toLocaleDateString([], { weekday: "narrow" }), // M T W…
