@@ -1,6 +1,4 @@
 import type { Request, Response } from "express";
-import { pool } from "../../config/db.js";
-import { mapTask } from "./tasks.mapper.js";
 import * as taskService from "./tasks.service.js";
 
 export async function getAllTasks(req: Request, res: Response) {

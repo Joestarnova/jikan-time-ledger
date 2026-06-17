@@ -75,10 +75,13 @@ export default function SessionList({ tasks, selected }: SessionListProps) {
           <ul className={styles.sessionList}>
             {group.items.map((session) => {
               const task = tasks.find((t) => t.id === session.taskId);
-              const endAt = new Date(
-                new Date(session.startedAt).getTime() +
-                  session.durationSeconds * 1000,
-              ).toISOString();
+              const endAt =
+                session.durationSeconds === null
+                  ? null
+                  : new Date(
+                      new Date(session.startedAt).getTime() +
+                        session.durationSeconds * 1000,
+                    ).toISOString();
 
               return (
                 <li key={session.id} className={styles.sessionItem}>
@@ -87,15 +90,13 @@ export default function SessionList({ tasks, selected }: SessionListProps) {
                     style={{ backgroundColor: task?.taskColor }}
                   />
                   <div className={styles.info}>
-                    <span className={styles.name}>
-                      {task?.taskName}
-                    </span>
+                    <span className={styles.name}>{task?.taskName}</span>
                     <span className={styles.time}>
-                      {formatTime(session.startedAt)} → {formatTime(endAt)}
+                      {formatTime(session.startedAt)} → {endAt ? formatTime(endAt) : "now"}
                     </span>
                   </div>
                   <span className={styles.duration}>
-                    {formatClock(session.durationSeconds)}
+                    {session.durationSeconds === null ? "running…" : formatClock(session.durationSeconds)}
                   </span>
                 </li>
               );

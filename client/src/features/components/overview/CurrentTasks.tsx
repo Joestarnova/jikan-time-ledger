@@ -25,7 +25,7 @@ export default function CurrentTasks() {
   const minutesByTask = sessions
     .filter((s) => isToday(s.startedAt))
     .reduce<Record<string, number>>((acc, s) => {
-      acc[s.taskId] = (acc[s.taskId] ?? 0) + s.durationSeconds / 60;
+      acc[s.taskId] = (acc[s.taskId] ?? 0) + (s.durationSeconds ?? 0) / 60;
       return acc;
     }, {});
 

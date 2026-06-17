@@ -41,7 +41,7 @@ export default function StatsRow() {
   const todaysSessions = sessions.filter((s) => isToday(s.startedAt));
 
   const totalSeconds = todaysSessions.reduce(
-    (sum, s) => sum + s.durationSeconds,
+    (sum, s) => sum + (s.durationSeconds ?? 0),
     0
   );
 
