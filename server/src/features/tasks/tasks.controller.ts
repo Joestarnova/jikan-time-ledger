@@ -4,7 +4,7 @@ import * as taskService from "./tasks.service.js";
 export async function getAllTasks(req: Request, res: Response) {
   try {
     const tasks = await taskService.getAllTasks();
-    res.json(tasks);
+    res.status(200).json(tasks);
   } catch (err) {
     console.error("GET /tasks failed:", err);
     res.status(500).json({ error: "Failed to fetch task" });
@@ -38,7 +38,7 @@ export async function updateTask(req: Request, res: Response) {
     if (!task) {
       return res.status(404).json({ error: "Task not found" });
     }
-    res.json(task);
+    res.status(200).json(task);
   } catch (err) {
     console.error("PATCH /tasks/:id failed:", err);
     res.status(500).json({ error: "Failed to update task" });
