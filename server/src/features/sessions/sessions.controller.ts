@@ -28,7 +28,7 @@ export async function stopSession(req: Request, res: Response) {
     if (!session) {
       return res.status(409).json({ error: "Session is not running" });
     }
-    res.json(session);
+    res.status(200).json(session);
   } catch (err) {
     console.error("POST /sessions/:id/stop failed:", err);
     res.status(500).json({ error: "Failed to stop session" });
@@ -53,7 +53,7 @@ export async function getSessions(req: Request, res: Response) {
       from: req.query.from as string | undefined,
       to: req.query.to as string | undefined,
     });
-    res.json(sessions);
+    res.status(200).json(sessions);
   } catch (err) {
     console.error("GET /sessions failed:", err);
     res.status(500).json({ error: "Failed to fetch sessions" });
