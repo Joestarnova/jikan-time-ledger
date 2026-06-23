@@ -1,4 +1,4 @@
-CREATE TABLE tasks (
+CREATE TABLE IF NOT EXISTS tasks (
   id            SERIAL PRIMARY KEY,
   name          TEXT NOT NULL,
   emoji         TEXT,
@@ -7,7 +7,7 @@ CREATE TABLE tasks (
   created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE sessions (
+CREATE TABLE IF NOT EXISTS sessions (
   id                SERIAL PRIMARY KEY,
   task_id           INTEGER NOT NULL REFERENCES tasks(id) ON DELETE CASCADE,
   started_at        TIMESTAMPTZ NOT NULL,
