@@ -5,7 +5,9 @@ import type { Task } from "../../../types";
 
 type AddTaskProps = {
   tasks: Task[];
-  onAddTasks: (task: Task) => void;
+  onAddTasks: (
+    task: Pick<Task, "taskName" | "taskEmoji" | "taskColor">,
+  ) => void;
 };
 type ColorPickerProps = {
   selectedColor: string;
@@ -30,14 +32,15 @@ export default function AddTask({ tasks, onAddTasks }: AddTaskProps) {
       return;
     }
 
-    const newTask = { taskEmoji, taskName, taskColor, id: crypto.randomUUID(), isFavorite: false };
+    const newTask = {
+      taskEmoji,
+      taskName,
+      taskColor: taskColor || "#F6A724",
+    };
 
     onAddTasks(newTask);
-
     handleExit();
-
     setTaskName("");
-
     setTaskEmoji("");
   };
 
