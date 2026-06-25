@@ -1,29 +1,65 @@
-import { useState } from "react";
-import type { Session } from "../../types";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { api } from "../../lib/api";
 import { useSessions } from "../sessions";
-import { ActiveSessionContext, type ActiveSession } from "./activeSessionContext";
+import {
+  ActiveSessionContext,
+  type ActiveSession,
+} from "./activeSessionContext";
 
-export function ActiveSessionProvider({ children }: { children: React.ReactNode }) {
+export function ActiveSessionProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [activeSession, setActiveSession] = useState<ActiveSession>(null);
-  const { setSessions } = useSessions();
+  const { refresh } = useSessions();
 
-  const start = (taskId: string) => {
-    setActiveSession({ taskId, startedAt: new Date().toISOString() });
+  useEffect(() => {
+    let cancelled = false;
+
+    api
+      .getActiveSession()
+      .then((session) => {
+        if (!cancelled && session) {
+          setActiveSession({
+            id: session.id,
+            taskId: session.taskId,
+            startedAt: session.startedAt,
+          });
+        }
+      })
+      .catch((err) => console.error("Failed to load active session:", err));
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const start = async (taskId: string) => {
+    try {
+      const session = await api.startSession(taskId);
+      setActiveSession({
+        id: session.id,
+        taskId: session.taskId,
+        startedAt: session.startedAt,
+      });
+      await refresh();
+    } catch (err) {
+      console.error("Failed to start session:", err);
+      toast.error("Failed to start timer");
+    }
   };
 
-  const stop = () => {
-    if (!activeSession) return;
-    const durationSeconds = Math.round(
-      (Date.now() - new Date(activeSession.startedAt).getTime()) / 1000
-    );
-    const session: Session = {
-      id: crypto.randomUUID(),
-      taskId: activeSession.taskId,
-      startedAt: activeSession.startedAt,
-      durationSeconds,
-    };
-    setSessions((prev) => [...prev, session]);
-    setActiveSession(null);
+  const stop =  async () => {
+   if(!activeSession) return;
+   try {
+    await api.stopSession(activeSession.id);
+    setActiveSession(null)
+    await refresh();
+   } catch (err) {
+    console.error("Failed to stop session:", err);
+    toast.error("Failed to stop timer");
+   }
   };
 
   return (

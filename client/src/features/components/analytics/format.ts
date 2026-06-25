@@ -12,6 +12,3 @@ export const dateKey = (d: Date) => {
   const day = String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${day}`;
 };
-
-export const startOfDay = (s: string) => new Date(`${s}T00:00:00`);
-export const endOfDay = (s: string) => new Date(`${s}T23:59:59.999`);
