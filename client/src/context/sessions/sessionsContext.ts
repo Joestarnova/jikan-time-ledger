@@ -3,7 +3,8 @@ import type { Session } from "../../types";
 
 interface SessionsContextType {
   sessions: Session[];
-  setSessions: React.Dispatch<React.SetStateAction<Session[]>>;
+  loading: boolean;
+  refresh: () => Promise<void>;
 }
 
 export const SessionsContext = createContext<SessionsContextType | null>(null);

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Layout from "../../components/layout/Layout";
 import AddTask from "../components/tasks/AddTask";
 import TaskList from "../components/tasks/TaskList";
@@ -10,25 +9,6 @@ type TaskDraft = Pick<Task, "taskName" | "taskEmoji" | "taskColor">;
 
 export default function TasksPage() {
   const { tasks, setTasks } = useTasks();
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadTasks() {
-      const data = await api.getTasks();
-      if (!cancelled) {
-        setTasks(data);
-      }
-    }
-
-    loadTasks().catch((err) => {
-      console.error("Failed to load tasks:", err);
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [setTasks]);
 
   const handleAddTasks = async (draft: TaskDraft) => {
     const created = await api.createTask(draft);

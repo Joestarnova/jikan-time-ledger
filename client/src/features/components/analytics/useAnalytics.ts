@@ -1,83 +1,114 @@
-import { useMemo } from "react";
-import { useSessions } from "../../../context/sessions";
-import { useTasks } from "../../../context/tasks";
-import type { Session, Task } from "../../../types";
-import { dateKey, startOfDay, endOfDay } from "./format";
+import { useEffect, useState } from "react";
+import { api, type Analytics } from "../../../lib/api";
+import { dateKey } from "./format";
 
-export type DateRange = { from: string; to: string }; // yyyy-mm-dd
+export type Period = "today" | "7d" | "30d";
 
-export function useAnalytics({ from, to }: DateRange) {
-  const { sessions } = useSessions();
-  const { tasks } = useTasks();
+// The shape the chart components consume (AnalyticsSummary / DailyHoursChart / TimeDistribution)
+type AnalyticsView = {
+  totalSeconds: number;
+  dailyAverageSeconds: number;
+  topSubject: {
+    task: { taskName: string; taskColor: string };
+    pct: number;
+  } | null;
+  longest: {
+    task: { taskName: string };
+    session: { durationSeconds: number; startedAt: string };
+  } | null;
+  distribution: {
+    task: { taskName: string; taskColor: string };
+    seconds: number;
+    pct: number;
+  }[];
+  daily: { key: string; label: string; hours: number; isToday: boolean }[];
+};
 
-  return useMemo(() => {
-    const start = startOfDay(from).getTime();
-    const end = endOfDay(to).getTime();
+const EMPTY: AnalyticsView = {
+  totalSeconds: 0,
+  dailyAverageSeconds: 0,
+  topSubject: null,
+  longest: null,
+  distribution: [],
+  daily: [],
+};
 
-    const inRange = sessions.filter((s) => {
-      const t = new Date(s.startedAt).getTime();
-      return t >= start && t <= end;
+const dayCount = (p: Period) => (p === "today" ? 1 : p === "7d" ? 7 : 30);
+
+function buildDaily(res: Analytics, period: Period): AnalyticsView["daily"] {
+  const byDate = new Map(
+    res.dailyBreakdown.map((d) => [d.date, d.totalSeconds]),
+  );
+  const todayKey = dateKey(new Date());
+  const days = dayCount(period);
+
+  const cursor = new Date();
+  cursor.setHours(0, 0, 0, 0);
+  cursor.setDate(cursor.getDate() - (days - 1));
+
+  const out: AnalyticsView["daily"] = [];
+  for (let i = 0; i < days; i++) {
+    const key = dateKey(cursor);
+    const secs = byDate.get(key) ?? 0;
+    out.push({
+      key,
+      label: cursor.toLocaleDateString([], { weekday: "narrow" }),
+      hours: secs / 3600,
+      isToday: key === todayKey,
     });
+    cursor.setDate(cursor.getDate() + 1);
+  }
+  return out;
+}
 
-    const totalSeconds = inRange.reduce((sum, s) => sum + (s.durationSeconds ?? 0), 0);
+function toView(res: Analytics, period: Period): AnalyticsView {
+  return {
+    totalSeconds: res.totalSeconds,
+    dailyAverageSeconds: res.dailyAvgSeconds,
+    topSubject: res.topTask
+      ? {
+          task: { taskName: res.topTask.name, taskColor: res.topTask.color },
+          pct: res.topTask.percent,
+        }
+      : null,
+    longest: res.longestSession
+      ? {
+          task: { taskName: res.longestSession.taskName },
+          session: {
+            durationSeconds: res.longestSession.duration,
+            startedAt: res.longestSession.date,
+          },
+        }
+      : null,
+    distribution: res.distribution.map((d) => ({
+      task: { taskName: d.name, taskColor: d.color },
+      seconds: Math.round((res.totalSeconds * d.percent) / 100),
+      pct: d.percent,
+    })),
+    daily: buildDaily(res, period),
+  };
+}
 
-    // active days = distinct calendar days that have at least one session
-    const activeDays = new Set(
-      inRange.map((s) => dateKey(new Date(s.startedAt)))
-    ).size;
-    const dailyAverageSeconds =
-      activeDays === 0 ? 0 : Math.round(totalSeconds / activeDays);
+export function useAnalytics(period: Period) {
+  const [data, setData] = useState<AnalyticsView>(EMPTY);
 
-    // per-task totals -> distribution (sorted desc) -> top subject
-    const totals = new Map<string, number>();
-    for (const s of inRange) {
-      totals.set(s.taskId, (totals.get(s.taskId) ?? 0) + (s.durationSeconds ?? 0));
-    }
-    const distribution = [...totals.entries()]
-      .map(([taskId, seconds]) => ({
-        task: tasks.find((t) => t.id === taskId),
-        seconds,
-        pct: totalSeconds === 0 ? 0 : (seconds / totalSeconds) * 100,
-      }))
-      .sort((a, b) => b.seconds - a.seconds);
+  useEffect(() => {
+    let cancelled = false;
 
-    const topSubject = distribution[0] ?? null;
-
-    // longest single session in range
-    let longest: { session: Session; task?: Task } | null = null;
-    for (const s of inRange) {
-      if (!longest || (s.durationSeconds ?? 0) > (longest.session.durationSeconds?? 0)) {
-        longest = { session: s, task: tasks.find((t) => t.id === s.taskId) };
+    (async () => {
+      try {
+        const analytics = await api.getAnalytics(period);
+        if (!cancelled) setData(toView(analytics, period));
+      } catch (err) {
+        console.error("Failed to load analytics:", err);
+        if (!cancelled) setData(EMPTY);
       }
-    }
-
-    // one bucket per calendar day across the range (for the area chart)
-    const todayKey = dateKey(new Date());
-    const daily: { key: string; label: string; hours: number; isToday: boolean }[] = [];
-    const cursor = startOfDay(from);
-    const last = startOfDay(to).getTime();
-    while (cursor.getTime() <= last) {
-      const key = dateKey(cursor);
-      const secs = inRange
-        .filter((s) => dateKey(new Date(s.startedAt)) === key)
-        .reduce((sum, s) => sum + (s.durationSeconds ?? 0), 0);
-      daily.push({
-        key,
-        label: cursor.toLocaleDateString([], { weekday: "narrow" }), // M T W…
-        hours: secs / 3600,
-        isToday: key === todayKey,
-      });
-      cursor.setDate(cursor.getDate() + 1);
-    }
-
-    return {
-      totalSeconds,
-      activeDays,
-      dailyAverageSeconds,
-      distribution,
-      topSubject,
-      longest,
-      daily,
+    })();
+    
+    return () => {
+      cancelled = true;
     };
-  }, [sessions, tasks, from, to]);
+  }, [period]);
+
+  return data;
 }
