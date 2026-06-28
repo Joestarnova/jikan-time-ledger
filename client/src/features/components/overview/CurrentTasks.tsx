@@ -7,7 +7,7 @@ import { useActiveSession } from "../../../context/activeSession";
 
 
 export default function CurrentTasks() {
-  const { tasks } = useTasks();
+  const { tasks, isLoading } = useTasks();
   const { sessions } = useSessions();
     const { start, activeSession } = useActiveSession();
 
@@ -41,7 +41,7 @@ export default function CurrentTasks() {
       <SectionLabel trailing="today">Current Tasks</SectionLabel>
       <div className="space-y-3">
         {tasks.length === 0 ? (
-          <p className="text-sm text-zinc-500">No tasks yet.</p>
+          <p className="text-sm text-zinc-500">{isLoading ? "Loading....": "No tasks yet"}</p>
         ) : (
                     tasks.map((task) => (
             <div key={task.id} className="flex items-center gap-3">

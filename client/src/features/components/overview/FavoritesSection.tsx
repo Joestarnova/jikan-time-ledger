@@ -47,7 +47,7 @@ function FavoriteCard({
 
 
 export default function FavoritesSection() {
-  const { tasks } = useTasks();
+  const { tasks, isLoading } = useTasks();
   const { start, activeSession } = useActiveSession();
   const favorites = tasks.filter((task) => task.isFavorite);
 
@@ -56,7 +56,7 @@ export default function FavoritesSection() {
       <SectionLabel>Favorites</SectionLabel>
       {favorites.length === 0 ? (
         <p className="text-sm text-zinc-500">
-          No favorites yet. Star a task to add it here.
+          {isLoading ? "Loading....": "No tasks yet, Star a task to add it here"}
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

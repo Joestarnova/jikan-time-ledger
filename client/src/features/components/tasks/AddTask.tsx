@@ -2,6 +2,7 @@ import styles from "./tasks.module.css";
 import Modal from "../../../components/ui/modal/Modal";
 import { useState, type FormEvent } from "react";
 import type { Task } from "../../../types";
+import { useTasks } from "../../../context/tasks";
 
 type AddTaskProps = {
   tasks: Task[];
@@ -19,6 +20,7 @@ export default function AddTask({ tasks, onAddTasks }: AddTaskProps) {
   const [taskName, setTaskName] = useState("");
   const [taskEmoji, setTaskEmoji] = useState("");
   const [taskColor, setTaskColor] = useState("");
+  const {isLoading} = useTasks()
 
   const handleExit = () => {
     setActiveModal(false);
@@ -47,7 +49,7 @@ export default function AddTask({ tasks, onAddTasks }: AddTaskProps) {
   return (
     <div className={styles.parent}>
       <div className={styles.container}>
-        <p>{tasks.length === 0 ? "No" : tasks.length} Tasks</p>
+        <p>{isLoading ? "Loading Tasks..." : `${tasks.length === 0 ? "No" : tasks.length} Tasks`}</p>
         <button onClick={() => setActiveModal(true)}>+ Add Task</button>
       </div>
       {activeModal && (

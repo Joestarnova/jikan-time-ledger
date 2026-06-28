@@ -5,6 +5,7 @@ import { api } from "../../lib/api";
 
 export function TasksProvider({ children }: { children: React.ReactNode }) {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
     let cancelled = false;
@@ -17,6 +18,8 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
       }
       } catch (err) {
         console.error("Failed to load tasks:", err);
+      } finally {
+        if (!cancelled) setIsLoading(false)
       }
     })()
 
@@ -26,7 +29,7 @@ export function TasksProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <TasksContext.Provider value={{ tasks, setTasks }}>
+    <TasksContext.Provider value={{ tasks, setTasks, isLoading}}>
       {children}
     </TasksContext.Provider>
   );
