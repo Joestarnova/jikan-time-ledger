@@ -42,7 +42,7 @@ const dayLabel = (iso: string) => {
 };
 
 export default function SessionList({ tasks, selected }: SessionListProps) {
-  const { sessions } = useSessions();
+  const { sessions, loading } = useSessions();
 
   const filtered = sessions
     .filter((s) => selected === "all" || s.taskId === selected)
@@ -53,7 +53,7 @@ export default function SessionList({ tasks, selected }: SessionListProps) {
     );
 
   if (filtered.length === 0) {
-    return <div className={styles.empty}>No sessions logged yet.</div>;
+    return <div className={styles.empty}>{loading ? "Loading....": "No sessions logged yet. No sessions logged yet."}</div>;
   }
 
   const groups: { key: string; label: string; items: typeof filtered }[] = [];

@@ -12,7 +12,7 @@ const formatElapsed = (seconds: number) => {
 
 export default function ActiveTimer() {
   const { activeSession, stop } = useActiveSession();
-  const { tasks } = useTasks();
+  const { tasks, isLoading } = useTasks();
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function ActiveTimer() {
           Active Timer
         </SectionLabel>
         <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-5 text-sm text-zinc-500">
-          No timer running. Start one from your tasks below.
+          {isLoading ? "Loading....": "No timer running. Start one from your tasks below."}
         </div>
       </section>
     );
@@ -59,7 +59,7 @@ export default function ActiveTimer() {
             />
             <div>
               <div className="font-medium text-zinc-100">
-                {task ? task.taskName : "Unknown task"}
+                {task?.taskName ?? (isLoading ? "Loading....": "Unknown Task")}
               </div>
               <div className="font-mono text-xs text-zinc-500">
                 Started {startedAtLabel}
