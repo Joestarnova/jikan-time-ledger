@@ -11,6 +11,13 @@ A personal time-tracking and task management app. Track work sessions against ta
 - **Analytics** — daily hours chart, time distribution per task, and summary stats with `today / 7d / 30d` presets
 - **Persistence** — everything is backed by a PostgreSQL database via the API
 
+## Screenshots
+
+| | |
+| :---: | :---: |
+| ![Jikan Time Ledger screenshot 1](./assets/screenshot-1.png) | ![Jikan Time Ledger screenshot 2](./assets/screenshot-2.png) |
+| ![Jikan Time Ledger screenshot 3](./assets/screenshot-3.png) | ![Jikan Time Ledger screenshot 4](./assets/screenshot-4.png) |
+
 ## Tech Stack
 
 | Layer    | Tech                                       |
