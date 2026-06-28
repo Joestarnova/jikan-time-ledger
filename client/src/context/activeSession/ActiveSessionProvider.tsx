@@ -18,9 +18,9 @@ export function ActiveSessionProvider({
   useEffect(() => {
     let cancelled = false;
 
-    api
-      .getActiveSession()
-      .then((session) => {
+    (async () => {
+      try {
+        const session = await api.getActiveSession();
         if (!cancelled && session) {
           setActiveSession({
             id: session.id,
@@ -28,8 +28,12 @@ export function ActiveSessionProvider({
             startedAt: session.startedAt,
           });
         }
-      })
-      .catch((err) => console.error("Failed to load active session:", err));
+      } catch (err) {
+        console.error("Failed to load active session:", err)
+      }
+    })()
+
+    
     return () => {
       cancelled = true;
     };

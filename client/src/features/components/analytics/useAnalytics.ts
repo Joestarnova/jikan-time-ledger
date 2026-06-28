@@ -35,7 +35,6 @@ const EMPTY: AnalyticsView = {
 
 const dayCount = (p: Period) => (p === "today" ? 1 : p === "7d" ? 7 : 30);
 
-// Build one continuous bucket per calendar day, filled from the backend breakdown
 function buildDaily(res: Analytics, period: Period): AnalyticsView["daily"] {
   const byDate = new Map(
     res.dailyBreakdown.map((d) => [d.date, d.totalSeconds]),
@@ -95,15 +94,17 @@ export function useAnalytics(period: Period) {
 
   useEffect(() => {
     let cancelled = false;
-    api
-      .getAnalytics(period)
-      .then((res) => {
-        if (!cancelled) setData(toView(res, period));
-      })
-      .catch((err) => {
+
+    (async () => {
+      try {
+        const analytics = await api.getAnalytics(period);
+        if (!cancelled) setData(toView(analytics, period));
+      } catch (err) {
         console.error("Failed to load analytics:", err);
         if (!cancelled) setData(EMPTY);
-      });
+      }
+    })();
+    
     return () => {
       cancelled = true;
     };
