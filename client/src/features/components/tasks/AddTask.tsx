@@ -47,10 +47,17 @@ export default function AddTask({ tasks, onAddTasks }: AddTaskProps) {
   };
 
   return (
-    <div className={styles.parent}>
-      <div className={styles.container}>
-        <p>{isLoading ? "Loading Tasks..." : `${tasks.length === 0 ? "No" : tasks.length} Tasks`}</p>
-        <button onClick={() => setActiveModal(true)}>+ Add Task</button>
+    <div>
+      <div className="flex items-center justify-between pb-4 mb-4 border-b border-zinc-800">
+        <p className="text-sm text-zinc-500">
+          {isLoading ? "Loading Tasks..." : `${tasks.length === 0 ? "No" : tasks.length} Tasks`}
+        </p>
+        <button
+          onClick={() => setActiveModal(true)}
+          className="rounded-md border border-amber-500/60 bg-amber-500/10 px-3 py-1.5 text-xs text-amber-400 transition hover:bg-amber-500/20"
+        >
+          + Add Task
+        </button>
       </div>
       {activeModal && (
         <Modal isOpen={activeModal} onClose={handleExit} title="New Task">

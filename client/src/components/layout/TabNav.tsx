@@ -9,7 +9,7 @@ const tabs = [
 
 export default function TabNav() {
   return (
-    <nav className="flex items-center gap-6 border-b border-zinc-900 px-8">
+    <nav className="flex items-center gap-6 border-b border-zinc-800">
       {tabs.map((tab) => (
         <NavLink
           key={tab.to}
