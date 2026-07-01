@@ -15,8 +15,8 @@ A personal time-tracking and task management app. Track work sessions against ta
 
 | | |
 | :---: | :---: |
-| ![Jikan Time Ledger screenshot 1](./assets/screenshot-1.png) | ![Jikan Time Ledger screenshot 2](./assets/screenshot-2.png) |
-| ![Jikan Time Ledger screenshot 3](./assets/screenshot-3.png) | ![Jikan Time Ledger screenshot 4](./assets/screenshot-4.png) |
+| ![Jikan Time Ledger screenshot 1](./assets/ss-1.png) | ![Jikan Time Ledger screenshot 2](./assets/ss-2.png) |
+| ![Jikan Time Ledger screenshot 3](./assets/ss-3.png) | ![Jikan Time Ledger screenshot 4](./assets/ss-4.png) |
 
 ## Tech Stack
 
