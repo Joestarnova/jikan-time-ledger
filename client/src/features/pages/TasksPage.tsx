@@ -32,12 +32,21 @@ export default function TasksPage() {
 
   return (
     <Layout>
-      <AddTask tasks={tasks} onAddTasks={handleAddTasks} />
-      <TaskList
-        tasks={tasks}
-        onDeleteTask={handleDeleteTask}
-        onToggleFavorite={handleToggleFavorite}
-      />
+      <div className="space-y-6">
+        <h1 className="text-2xl font-medium tracking-tight text-zinc-100">Tasks</h1>
+
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-6">
+          <AddTask tasks={tasks} onAddTasks={handleAddTasks} />
+        </div>
+
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-6">
+          <TaskList
+            tasks={tasks}
+            onDeleteTask={handleDeleteTask}
+            onToggleFavorite={handleToggleFavorite}
+          />
+        </div>
+      </div>
     </Layout>
   );
 }

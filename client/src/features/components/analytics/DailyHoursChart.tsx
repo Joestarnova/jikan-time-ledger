@@ -14,7 +14,7 @@ export default function DailyHoursChart({ data }: { data: Analytics }) {
   const todayLabel = data.daily.some((d) => d.isToday) ? "today" : null;
 
   return (
-    <section className="space-y-4 border-b border-zinc-900 pb-8">
+    <section className="space-y-4">
       <SectionLabel>Daily Tracked Hours — Last 7 Days</SectionLabel>
       <div className="h-56 w-full">
         <ResponsiveContainer width="100%" height="100%">

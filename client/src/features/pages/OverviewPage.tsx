@@ -14,16 +14,30 @@ export default function OverviewPage() {
 
   return (
     <Layout>
-      <div className="space-y-10">
-        <h1 className="text-3xl font-medium tracking-tight text-zinc-100">
+      <div className="space-y-6">
+        <h1 className="text-2xl font-medium tracking-tight text-zinc-100">
           {today}
         </h1>
 
-        <WorkingHoursSection />
-        <StatsRow />
-        <ActiveTimer />
-        <CurrentTasks />
-        <FavoritesSection />
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-6">
+          <WorkingHoursSection />
+        </div>
+
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-6">
+          <StatsRow />
+        </div>
+
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-6">
+          <ActiveTimer />
+        </div>
+
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-6">
+          <CurrentTasks />
+        </div>
+
+        <div className="rounded-xl border border-zinc-800 bg-zinc-900/30 p-6">
+          <FavoritesSection />
+        </div>
       </div>
     </Layout>
   );

@@ -30,7 +30,7 @@ export default function AnalyticsSummary({ data }: { data: Analytics }) {
     : "—";
 
   return (
-    <section className="grid grid-cols-1 gap-8 border-y border-zinc-900 py-8 sm:grid-cols-2">
+    <section className="grid grid-cols-1 gap-8 sm:grid-cols-2">
       <Card label="Total Tracked" value={formatHm(totalSeconds)} caption={`${daily.length}-day window`} accent />
       <Card label="Daily Average" value={formatHm(dailyAverageSeconds)} caption="per active day" />
       <Card

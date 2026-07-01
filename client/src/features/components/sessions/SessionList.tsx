@@ -1,13 +1,11 @@
 import type { Task } from "../../../types";
 import { useSessions } from "../../../context/sessions";
-import styles from "./sessions.module.css";
 
 interface SessionListProps {
   tasks: Task[];
   selected: string;
 }
 
-// "14:32"
 const formatTime = (iso: string) =>
   new Date(iso).toLocaleTimeString([], {
     hour: "2-digit",
@@ -15,7 +13,6 @@ const formatTime = (iso: string) =>
     hour12: false,
   });
 
-// "1:55:00"
 const formatClock = (seconds: number) => {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -33,11 +30,10 @@ const dayLabel = (iso: string) => {
 
   const dateStr = d
     .toLocaleDateString([], { month: "short", day: "numeric" })
-    .toUpperCase(); // "APR 24"
+    .toUpperCase();
 
   if (d.toDateString() === today.toDateString()) return `TODAY · ${dateStr}`;
-  if (d.toDateString() === yesterday.toDateString())
-    return `YESTERDAY · ${dateStr}`;
+  if (d.toDateString() === yesterday.toDateString()) return `YESTERDAY · ${dateStr}`;
   return dateStr;
 };
 
@@ -53,7 +49,11 @@ export default function SessionList({ tasks, selected }: SessionListProps) {
     );
 
   if (filtered.length === 0) {
-    return <div className={styles.empty}>{loading ? "Loading....": "No sessions logged yet. No sessions logged yet."}</div>;
+    return (
+      <div className="py-10 text-center text-sm text-zinc-500">
+        {loading ? "Loading...." : "No sessions logged yet."}
+      </div>
+    );
   }
 
   const groups: { key: string; label: string; items: typeof filtered }[] = [];
@@ -71,8 +71,10 @@ export default function SessionList({ tasks, selected }: SessionListProps) {
     <div>
       {groups.map((group) => (
         <section key={group.key}>
-          <h3 className={styles.dayHeader}>{group.label}</h3>
-          <ul className={styles.sessionList}>
+          <h3 className="mb-2 mt-7 font-mono text-[10px] tracking-[0.15em] text-zinc-600 uppercase">
+            {group.label}
+          </h3>
+          <ul className="space-y-0">
             {group.items.map((session) => {
               const task = tasks.find((t) => t.id === session.taskId);
               const endAt =
@@ -84,18 +86,21 @@ export default function SessionList({ tasks, selected }: SessionListProps) {
                     ).toISOString();
 
               return (
-                <li key={session.id} className={styles.sessionItem}>
+                <li
+                  key={session.id}
+                  className="flex items-center gap-4 border-b border-zinc-800/60 px-1 py-3.5"
+                >
                   <span
-                    className={styles.bar}
+                    className="w-0.5 self-stretch rounded-full shrink-0"
                     style={{ backgroundColor: task?.taskColor }}
                   />
-                  <div className={styles.info}>
-                    <span className={styles.name}>{task?.taskName}</span>
-                    <span className={styles.time}>
+                  <div className="flex flex-1 flex-col gap-1">
+                    <span className="text-sm font-medium text-zinc-100">{task?.taskName}</span>
+                    <span className="font-mono text-xs text-zinc-500">
                       {formatTime(session.startedAt)} → {endAt ? formatTime(endAt) : "now"}
                     </span>
                   </div>
-                  <span className={styles.duration}>
+                  <span className="font-mono text-sm text-zinc-300">
                     {session.durationSeconds === null ? "running…" : formatClock(session.durationSeconds)}
                   </span>
                 </li>

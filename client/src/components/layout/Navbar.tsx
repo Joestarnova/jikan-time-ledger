@@ -10,7 +10,7 @@ export default function Navbar() {
     .replace(",", "");
 
   return (
-    <header className="flex items-center justify-between px-8 py-5">
+    <header className="flex items-center justify-between py-5">
       <div className="flex items-center gap-3">
      
         <div className="text-lg font-semibold tracking-tight">

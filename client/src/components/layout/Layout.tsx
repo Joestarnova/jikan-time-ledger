@@ -9,9 +9,11 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
-      <Navbar />
-      <TabNav />
-      <main className="px-8 py-5">{children}</main>
+      <div className="mx-auto max-w-7xl px-8">
+        <Navbar />
+        <TabNav />
+      </div>
+      <div className="mx-auto max-w-7xl px-8 py-8">{children}</div>
     </div>
   );
 }
